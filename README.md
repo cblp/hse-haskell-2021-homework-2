@@ -1,144 +1,94 @@
-## Домашнее задание №2
+# Домашнее задание №2
 
 Дедлайн: 28 марта.
 
-#### 1 Монадический стек RWS
- __# 1.1 Reader__
+## RWS = Reader + Writer + State
 
-Зафиксируем некоторый тип `r`, заметим, что функции вида `r -> a` являются функтором, действительно:
+### 1. instance Functor для
 
-```haskell
-instance Functor ((->) r) where
-  fmap = (.)
+```hs
+newtype RWS r w s a = RWS {runRWS :: r -> s -> (a, s, w)}
 ```
 
-Поскольку инстанс `Functor` для `((->) r` определен в `GHC.Base`, воспользуемся типом-обёрткой:
+RWS имеет семантику, аналогичную Reader по параметру _r_, Writer по _w_ (который может быть моноидом), State по _s_.
 
-```haskell
-newtype Reader r a = Reader { runReader :: r -> a }
+Нельзя пользоваться _DeriveFunctor_.
+
+### 2. instance Applicative RWS
+
+### 3. instance Monad RWS
+
+### 4. Просмотр окружения Reader
+
+```hs
+ask :: RWS r w s r
 ```
 
-Семантика этого типа такова: вычисления, которые происходят в некотором общем окружении `r`, которое можно локально изменять.
+### 5. Вычисление в модифицированном окружении Reader
 
-При работе с монадой `Reader r` удобно использовать следующие функции:
-
-1. `ask` - возвращает окружение
-
-2. `local` --- выполняет вычисление в модифицированном окружении.
-
-
-__Задача #1.1.1__: реализуйте инстансы `Functor`, `Applicative` и `Monad` для `Reader r`. Использование `deriving` в каком-либо виде запрещено.
-
-__Задача #1.1.2__: реализуйте функции-помощники `ask`, `local`.
-
-```haskell
-ask :: Reader r r
-ask = _
-
-local
-  :: (r -> r)
-  -> Reader r a
-  -> Reader r a
-local = _
-
-instance Functor (Reader r) where
-instance Applicative (Reader r) where
-instance Monad (Reader r) where
+```hs
+local :: (r -> r) -> RWS r w s a -> RWS r w s a
 ```
 
-__#1.2 Writer__
+### 6. Вывод во Writer
 
-Семантика этого типа такова: Writer является оберткой над типом упорядоченной пары, первым элементом которой является некоторый результат вычисления, а вторым - лог для актуального результата вычислений.
-
-__Задача #1.2.1__: реализуйте инстансы `Functor`, `Applicative` и `Monad` для `Writer w`. Использование `deriving` в каком-либо виде запрещено.
-
-При работе с монадой `Writer w` удобно использовать следующие функции:
-
-1. `tell` - записывает значение в `Writer`.
-
-2. `listen` - функция, заменяющая внутреннее состояние.
-
-3. `pass` - функция, изменяющая лог, но при этом сохраняет значение.
-
-__Задача #1.2.2__: реализуйте функции-помощники `tell`, `listen` и `pass`.
-
-```haskell
-newtype Writer w a
-  = Writer { runWriter :: (a, w) }
-
-tell
-  :: Monoid w
-  => w
-  -> Writer w ()
-tell = _
-
-listen
-  :: Monoid w
-  => Writer w a
-  -> Writer w (w, a)
-listen = _
-
-pass
-  :: Monoid w
-  => Writer w (a, w -> w)
-  -> Writer w a
-pass = _
-
-instance Functor (Writer w) where
-instance Monoid w => Applicative (Writer w) where
-instance Monoid w => Monad (Writer w) where
+```hs
+tell :: w -> RWS r w s ()
 ```
 
-__#1.3 State__
+### 7. Запуск временного Writer и получение результата
 
-Часто бывает так, что нужно использовать состояние, которых, как известно, в Haskell нет.
-
-Для эмуляции состояния принято использовать монаду `State s`.
-
-__Задача #1.3.1__: реализуйте инстансы `Functor`, `Applicative` и `Monad` для `State s`. Использование `deriving` в каком-либо виде запрещено.
-
-При работе с монадой `State s` удобно использовать следующие функции:
-
-1. `get :: State s a` --- функция, возвращающая внутреннее состояние,
-
-2. `put :: s -> State s ()` --- функция, заменяющая внутреннее состояние.
-
-__Задача #1.3.2__: реализуйте функции-помощники `get`, `put`.
-
-```haskell
-newtype State s a
-  = State { runState :: s -> (a, s) }
-
-get :: State s s
-get = _
-
-put :: s -> State s ()
-put = _
-
-instance Functor (State s) where
-instance Applicative (State s) where
-instance Monad (State s) where
+```hs
+listen :: RWS r w s a -> RWS r w s (a, w)
 ```
 
-#### 2. Задачи на стрелки
+### 8. Получение состояние State
 
-2.1. Реализовать категорию стрелок, позволяющих хранить информацию о прошлом и неявно работающих со временем (с временной дельтой как с `Double`), и инстансы `Category`, `Arrow`. Определение стрелок вы найдёте в модуле `Control.Arrow` в `base`. Поизучайте первый слитый вариант задания.
+```hs
+get :: RWS r w s s
+```
+
+### 9. Запись состояния State
+
+```hs
+put :: s -> RWS r w s ()
+```
+
+<!--
+## Стрелки
+
+Реализовать категорию стрелок, позволяющих хранить информацию о прошлом и неявно работающих со временем (с временной дельтой как с `Double`), и инстансы `Category`, `Arrow`. Определение стрелок вы найдёте в модуле `Control.Arrow` в `base`. Поизучайте первый слитый вариант задания.
+
+### 10
 
 ```haskell
-data SignalFunction a b -- = ?
+data SignalFunction a b = _
+```
+
+### 11
+
+```haskell
 instance Category SignalFunction
+```
+
+### 12
+
+```haskell
 instance Arrow SignalFunction
 ```
 
+### 13. Интегрирование
 
-2.2 Реализовать стрелку, интегрирующую ломаную с узлами (t_i, x_i).
+Реализовать стрелку, интегрирующую ломаную с узлами $(t_i, x_i)$.
 
 ```haskell
 integral :: SignalFunction Double Double
 integral = _
 ```
 
-2.3 Используя расширение -XArrows и arrow-нотацию реализовать схему:
+### 14. Реализовать схему
+
+Используя расширение -XArrows и arrow-нотацию
 
 ```
      +=========+
@@ -156,7 +106,6 @@ integral = _
 someFunction :: SignalFunction (Double, Double) (Double, Double)
 someFunction = _
 ```
-
 
 2.4 Написать функцию, запускающую схему на списке входных данных и временных дельт.
 
@@ -176,6 +125,7 @@ runSignalFunction sf atZero inputs = outputs
   where
   outputs = _
 ```
+-->
 
 #### №3* Задачи на Concurrency (дополнительная задача, дающая +2.5 балла поверх основной оценки)
 
