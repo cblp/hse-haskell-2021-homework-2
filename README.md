@@ -127,6 +127,7 @@ runSignalFunction sf atZero inputs = outputs
 ```
 -->
 
+<!--
 #### №3* Задачи на Concurrency (дополнительная задача, дающая +2.5 балла поверх основной оценки)
 
 Используя библиотеку STM, и модули Control.Concurrent, Control.Exception из base
@@ -184,6 +185,7 @@ philosopher = _
 makePhilosophers :: IO [ThreadId]
 makePhilosophers = _
 ```
+-->
 
 #### №4 Задача на continuation passing style
 
