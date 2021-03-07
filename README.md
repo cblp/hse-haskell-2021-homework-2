@@ -142,7 +142,7 @@ newtype RWS r w s a = RWS {runRWS :: r -> s -> (a, s, w)}
 
 RWS имеет семантику, аналогичную Reader по параметру _r_, Writer по _w_ (который может быть моноидом), State по _s_.
 
-Нельзя пользоваться _DeriveFunctor_.
+Реализовать истансы без deriving:
 
 21. Functor
 22. Applicative
