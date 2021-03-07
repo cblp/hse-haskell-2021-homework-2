@@ -2,6 +2,8 @@
 
 Дедлайн: 28 марта.
 
+Алгоритмы должны быть асимптотически оптимальными.
+
 ## Functor и его друзья
 
 ### 1. Сумма чисел в строке
@@ -14,9 +16,27 @@ stringSum :: String -> Maybe Int
 
 Функция должна использовать инстанс Traversable для списка.
 
-### 2. Усложненное задание
+### 2. Тесты
 
-Написать несколько простых проперти тестов на эту функцию.
+Написать несколько простых проперти тестов на _stringSum_.
+
+### 3. instance Functor NonEmpty
+
+```hs
+data NonEmpty a = a :| [a]
+```
+
+Вручную без deriving.
+
+### 3. instance Functor NonEmpty
+
+### 4. instance Applicative NonEmpty
+
+### 5. instance Monad NonEmpty
+
+### 6. instance Foldable NonEmpty
+
+### 7. instance Traversable NonEmpty
 
 ## RWS = Reader + Writer + State
 
