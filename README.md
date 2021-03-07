@@ -22,7 +22,7 @@ stringSum :: String -> Maybe Int
 
 Написать несколько простых проперти тестов на _stringSum_.
 
-### 3. instance Functor NonEmpty
+### 3—7. Инстансы NonEmpty
 
 ```hs
 data NonEmpty a = a :| [a]
@@ -30,15 +30,11 @@ data NonEmpty a = a :| [a]
 
 Вручную без deriving.
 
-### 3. instance Functor NonEmpty
-
-### 4. instance Applicative NonEmpty
-
-### 5. instance Monad NonEmpty
-
-### 6. instance Foldable NonEmpty
-
-### 7. instance Traversable NonEmpty
+3. Functor
+4. Applicative
+5. Monad
+6. Foldable
+7. Traversable
 
 ## Монады и монадические вычисления
 
@@ -138,7 +134,7 @@ listListParser :: Parser Char [[Int]]
 
 ## RWS = Reader + Writer + State
 
-### 1. instance Functor для
+### 21—23. Инстансы для RWS
 
 ```hs
 newtype RWS r w s a = RWS {runRWS :: r -> s -> (a, s, w)}
@@ -148,43 +144,37 @@ RWS имеет семантику, аналогичную Reader по парам
 
 Нельзя пользоваться _DeriveFunctor_.
 
-### 2. instance Applicative RWS
+21. Functor
+22. Applicative
+23. Monad
 
-### 3. instance Monad RWS
-
-### 4. Просмотр окружения Reader
+### 24—25. Полезные ридеры
 
 ```hs
+-- | 24. Просмотр окружения
 ask :: RWS r w s r
-```
 
-### 5. Вычисление в модифицированном окружении Reader
-
-```hs
+-- | 25. Вычисление в модифицированном окружении
 local :: (r -> r) -> RWS r w s a -> RWS r w s a
 ```
 
-### 6. Вывод во Writer
+### 26—27. Полезные райтеры
 
 ```hs
+-- | 26. Вывод во Writer
 tell :: w -> RWS r w s ()
-```
 
-### 7. Запуск временного Writer и получение результата
-
-```hs
+-- | 27. Запуск временного Writer и получение результата
 listen :: RWS r w s a -> RWS r w s (a, w)
 ```
 
-### 8. Получение состояние State
+### 28—29. Полезные State-действия
 
 ```hs
+-- | 28. Чтение
 get :: RWS r w s s
-```
 
-### 9. Запись состояния State
-
-```hs
+-- | 29. Запись
 put :: s -> RWS r w s ()
 ```
 
