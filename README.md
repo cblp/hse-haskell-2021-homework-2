@@ -87,8 +87,6 @@ ghci> moving 2 [1, 5, 3, 8, 7, 9, 6]
 * [Parser Combinators: Basics](http://www.seas.upenn.edu/~cis194/spring13/hw/10-applicative.pdf)
 * [Parser Combinators: Implementing simple parser](http://www.seas.upenn.edu/~cis194/spring13/hw/11-applicative2.pdf)
 
-Основная часть упражнений оттуда всё равно является частью этого домашнего задания.
-
 ### 10—13
 
 Имеется тип простого парсер-комбинатора:
