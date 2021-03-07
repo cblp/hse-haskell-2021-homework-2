@@ -66,7 +66,7 @@ eval :: Expr -> Either ArithmeticError Int
 
 ### 9. Simple Moving Average
 
-Реализуйте [Simple Moving Average](https://en.wikipedia.org/wiki/Moving_average) алгоритм, используя State монаду.
+Реализуйте [Simple Moving Average](https://en.wikipedia.org/wiki/Moving_average) алгоритм, используя State.
 
 ```hs
 ghci> moving 4 [1, 5, 3, 8, 7, 9, 6]
@@ -88,7 +88,7 @@ ghci> moving 2 [1, 5, 3, 8, 7, 9, 6]
 Имеется тип простого парсера:
 
 ```hs
-data Parser s a = Parser { runParser :: [s] -> Maybe (a, [s]) }
+newtype Parser s a = Parser { runParser :: [s] -> Maybe (a, [s]) }
 ```
 
 Он может работать не только со строкой (s ~ Char), но и с любым потоком данных.
