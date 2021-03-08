@@ -4,7 +4,27 @@
 
 Алгоритмы должны быть асимптотически оптимальными по времени.
 
-Тесты: Ко всем функциям необходимо писать простые юнит-тесты.
+Сдавать в https://classroom.github.com/a/EmDnGRXO
+
+## Тесты
+
+Ко всем функциям необходимо писать простые юнит-тесты и желательно проперти. В качестве юнит-тестов можно брать проперти без параметров.
+
+```hs
+-- юнит-тесты (де факто)
+prop_example1 :: Property
+prop_example1 = 2 + 2 === 4
+
+prop_example2 :: Bool
+prop_example2 = null emptyTree
+
+-- настоящие проперти
+prop_example3 :: NonEmpty A -> Property
+prop_example3 xs = head (sort xs) === minimum xs
+
+prop_example4 :: NonEmpty A -> Bool
+prop_example4 xs = not $ null xs
+```
 
 ## Functor и его друзья
 
