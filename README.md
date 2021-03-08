@@ -41,6 +41,14 @@ prop_example4 xs = not $ null xs
 Тесты для инстансов можно писать на основе законов классов:
 
 ```hs
+prop_Functor_Identity :: f A -> Property
+prop_Functor_Identity x =
+  fmap id x === x
+
+prop_Functor_Composition :: Fun B C -> Fun A B -> f A -> Property
+prop_Functor_Composition (Fun _ f) (Fun _ g) x =
+  fmap (f . g) x === (fmap f . fmap g) x
+
 prop_Applicative_Identity :: f A -> Property
 prop_Applicative_Identity v =
   (pure id <*> v) === v
