@@ -14,12 +14,12 @@ instance Arbitrary a => Arbitrary (NonEmpty a) where
 instance Functor NonEmpty where
   fmap = undefined
 
+prop_NonEmpty_fmaps_as_a_list :: Blind (A -> B) -> NonEmpty A -> Property
+prop_NonEmpty_fmaps_as_a_list (Blind _f) _xs =
+  -- toList (fmap f xs) === fmap f (toList xs)
+  property True -- УБРАТЬ ЗАГЛУШКУ
+
 instance Foldable NonEmpty where
   foldMap = undefined
   foldr = undefined
   toList = undefined
-
-prop_NonEmpty_fmaps_as_a_list :: Blind (A -> B) -> NonEmpty A -> Property
-prop_NonEmpty_fmaps_as_a_list (Blind _f) _xs =
-  -- toList (fmap f xs) === fmap f (toList xs)
-  property True
