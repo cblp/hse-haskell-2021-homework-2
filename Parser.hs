@@ -2,7 +2,7 @@ module Parser where
 
 import           Control.Applicative
 
-newtype Parser s a = Parser { runParser :: [s] -> Maybe (a, [s]) }
+newtype Parser s a = Parser{runParser :: [s] -> Maybe (a, [s])}
 
 -- | 10
 instance Functor (Parser s) where
