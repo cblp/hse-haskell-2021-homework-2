@@ -5,6 +5,9 @@
 
 Алгоритмы должны быть асимптотически оптимальными по времени.
 
+Нельзя пользоваться частичными функциями.
+<!-- (head, tail, NonEmpty.fromList) без необходимости. -->
+
 Сдавать в https://classroom.github.com/a/EmDnGRXO коммитами в master.
 
 ## Тесты
@@ -25,6 +28,30 @@ prop_example3 xs = head (sort xs) === minimum xs
 
 prop_example4 :: NonEmpty A -> Bool
 prop_example4 xs = not $ null xs
+```
+
+Тесты для инстансов можно писать на основе законов классов:
+
+```hs
+prop_Applicative_Identity :: f A -> Property
+prop_Applicative_Identity v =
+  (pure id <*> v) === v
+
+prop_Applicative_Composition
+  :: Blind (f (B -> C))
+  -> Blind (f (A -> B))
+  -> f A
+  -> Property
+prop_Applicative_Composition (Blind u) (Blind v) w =
+  (pure (.) <*> u <*> v <*> w) === (u <*> (v <*> w))
+
+prop_Applicative_Homomorphism :: Blind (A -> B) -> A -> Property
+prop_Applicative_Homomorphism (Blind f) x =
+  (pure f <*> pure x) === (pure (f x) :: f B)
+
+prop_Applicative_Interchange :: Blind (f (A -> B)) -> A -> Property
+prop_Applicative_Interchange (Blind u) y =
+  (u <*> pure y) === (pure ($ y) <*> u)
 ```
 
 ## Functor и его друзья

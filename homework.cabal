@@ -11,7 +11,7 @@ test-suite homework
     tasty-discover,
     tasty-quickcheck,
   default-extensions:
-    BlockArguments EmptyDataDeriving LambdaCase TemplateHaskell
+    BlockArguments EmptyDataDeriving LambdaCase TemplateHaskell TypeApplications
   default-language: Haskell2010
   main-is: Main.hs
   other-modules:
