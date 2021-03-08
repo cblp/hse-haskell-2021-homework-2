@@ -4,7 +4,7 @@
 
 Алгоритмы должны быть асимптотически оптимальными по времени.
 
-Сдавать в https://classroom.github.com/a/EmDnGRXO
+Сдавать в https://classroom.github.com/a/EmDnGRXO коммитами в master.
 
 ## Тесты
 
