@@ -37,21 +37,55 @@ prop_Applicative_Identity :: f A -> Property
 prop_Applicative_Identity v =
   (pure id <*> v) === v
 
-prop_Applicative_Composition
-  :: Blind (f (B -> C))
-  -> Blind (f (A -> B))
-  -> f A
-  -> Property
-prop_Applicative_Composition (Blind u) (Blind v) w =
+prop_Applicative_Composition :: f (Fun B C) -> f (Fun A B) -> f A -> Property
+prop_Applicative_Composition u' v' w =
   (pure (.) <*> u <*> v <*> w) === (u <*> (v <*> w))
+  where
+    u = applyFun <$> u'
+    v = applyFun <$> v'
 
-prop_Applicative_Homomorphism :: Blind (A -> B) -> A -> Property
-prop_Applicative_Homomorphism (Blind f) x =
+prop_Applicative_Homomorphism :: Fun A B -> A -> Property
+prop_Applicative_Homomorphism (Fun _ f) x =
   (pure f <*> pure x) === (pure (f x) :: f B)
 
-prop_Applicative_Interchange :: Blind (f (A -> B)) -> A -> Property
-prop_Applicative_Interchange (Blind u) y =
+prop_Applicative_Interchange :: f (Fun A B) -> A -> Property
+prop_Applicative_Interchange u' y =
   (u <*> pure y) === (pure ($ y) <*> u)
+  where
+    u = applyFun <$> u'
+
+prop_Monad_LeftIdentity :: A -> Fun A (m B) -> Property
+prop_Monad_LeftIdentity a (Fun _ k) =
+  (return a >>= k) === k a
+
+prop_Monad_RightIdentity :: m B -> Property
+prop_Monad_RightIdentity m =
+  (m >>= return) === m
+
+prop_Monad_Associativity :: f A -> Fun A (f B) -> Fun B (f C) -> Property
+prop_Monad_Associativity m (Fun _ k) (Fun _ h) =
+  (m >>= (\x -> k x >>= h)) === ((m >>= k) >>= h)
+
+prop_traverse_Identity :: t A -> Property
+prop_traverse_Identity x =
+  traverse Identity x === Identity x
+
+prop_traverse_Composition :: Fun A (F B) -> Fun B (G C) -> t A -> Property
+prop_traverse_Composition (Fun _ f) (Fun _ g) x =
+  traverse (Compose . fmap g . f) x
+    === (Compose . fmap (traverse g) . traverse f) x
+
+prop_sequenceA_Identity :: t A -> Property
+prop_sequenceA_Identity x =
+  (sequenceA . fmap Identity) x === Identity x
+
+prop_sequenceA_Composition :: t (F (G A)) -> Property
+prop_sequenceA_Composition x =
+  (sequenceA . fmap Compose) x === (Compose . fmap sequenceA . sequenceA) x
+
+type F = Maybe
+
+type G = Either String
 ```
 
 ## Functor и его друзья
