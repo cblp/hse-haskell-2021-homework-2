@@ -41,3 +41,11 @@ element _e = undefined
 
 stream :: [s] -> Parser s [s]
 stream _s = undefined
+
+-- | 18
+balancedParentheses :: Parser Char ()
+balancedParentheses = undefined
+
+-- | 19
+integer :: Parser Char Integer
+integer = undefined
