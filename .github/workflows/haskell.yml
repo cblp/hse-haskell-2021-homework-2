@@ -34,7 +34,7 @@ jobs:
           ${{ runner.os }}-build-
           ${{ runner.os }}-
 
-    - {name: Compile and test, run: stack test}
+    - {name: Compile and test, run: stack --system-ghc --no-install-ghc test}
 
     # - name: Install stack
     #   run:
