@@ -8,4 +8,4 @@ stringSum = undefined
 
 -- | 2
 prop_stringSum_dummy :: Property
-prop_stringSum_dummy = "True" === "True"
+prop_stringSum_dummy = property True

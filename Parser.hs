@@ -1,6 +1,13 @@
 module Parser where
 
 import           Control.Applicative
+{-
+import           Data.Char
+import           Data.Functor
+import           Data.Maybe
+import           Test.QuickCheck
+import           Test.QuickCheck.Poly
+-}
 
 newtype Parser s a = Parser{runParser :: [s] -> Maybe (a, [s])}
 
@@ -12,7 +19,6 @@ instance Functor (Parser s) where
 instance Applicative (Parser s) where
   pure = undefined
   _ <*> _ = undefined
-  liftA2 = undefined
 
 -- | 12
 instance Monad (Parser s) where

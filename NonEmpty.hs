@@ -2,6 +2,10 @@ module NonEmpty where
 
 import           Control.Applicative
 import           Data.Foldable
+{-
+import           Data.Functor.Compose
+import           Data.Functor.Identity
+-}
 import           Test.QuickCheck
 import           Test.QuickCheck.Poly
 
@@ -15,16 +19,15 @@ instance Arbitrary a => Arbitrary (NonEmpty a) where
 instance Functor NonEmpty where
   fmap = undefined
 
-prop_NonEmpty_fmaps_as_a_list :: Blind (A -> B) -> NonEmpty A -> Property
-prop_NonEmpty_fmaps_as_a_list (Blind _f) _xs =
-  -- toList (fmap f xs) === fmap f (toList xs)
-  property True -- УБРАТЬ ЗАГЛУШКУ
+prop_NonEmpty_fmaps_as_a_list :: Fun A B -> NonEmpty A -> Property
+prop_NonEmpty_fmaps_as_a_list (Fun _ f) xs =
+  property True .||. -- УБРАТЬ ЗАГЛУШКУ
+  toList (fmap f xs) === fmap f (toList xs)
 
 -- | 4
 instance Applicative NonEmpty where
   pure = undefined
   _ <*> _ = undefined
-  liftA2 = undefined
 
 -- | 5
 instance Monad NonEmpty where
@@ -34,7 +37,6 @@ instance Monad NonEmpty where
 instance Foldable NonEmpty where
   foldMap = undefined
   foldr = undefined
-  toList = undefined
 
 -- | 7
 instance Traversable NonEmpty where

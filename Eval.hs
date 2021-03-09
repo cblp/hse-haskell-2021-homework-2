@@ -2,7 +2,8 @@
 module Eval where
 
 {-
-import Test.QuickCheck
+import           Control.Applicative
+import           Test.QuickCheck
 -}
 
 data Expr

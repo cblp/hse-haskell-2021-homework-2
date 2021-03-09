@@ -1,6 +1,9 @@
 module RWS where
 
-import           Control.Applicative
+{-
+import           Test.QuickCheck
+import           Test.QuickCheck.Poly
+-}
 
 newtype RWS r w s a = RWS{runRWS :: r -> s -> (a, s, w)}
 
@@ -12,7 +15,6 @@ instance Functor (RWS r w s) where
 instance Applicative (RWS r w s) where
   pure = undefined
   _ <*> _ = undefined
-  liftA2 = undefined
 
 -- | 22
 instance Monad (RWS r w s) where
