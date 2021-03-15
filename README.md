@@ -164,7 +164,7 @@ eval :: Expr -> Either ArithmeticError Int
 
 ### 9. Simple Moving Average
 
-Реализуйте [Simple Moving Average](https://en.wikipedia.org/wiki/Moving_average) алгоритм, используя State.
+Реализуйте [Simple Moving Average](https://en.wikipedia.org/wiki/Moving_average) алгоритм, используя State. Надо придумать, как реализовать алгоритм с изменяемым значением, определив, какая часть данных должна изменяться и передаваться между итерациями.
 
 ```hs
 ghci> moving 4 [1, 5, 3, 8, 7, 9, 6]
