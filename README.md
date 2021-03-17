@@ -186,7 +186,7 @@ ghci> moving 2 [1, 5, 3, 8, 7, 9, 6]
 Имеется тип простого парсера:
 
 ```hs
-newtype Parser s a = Parser { runParser :: [s] -> Maybe (a, [s]) }
+newtype Parser s a = Parser { runParser :: [s] -> Either String (a, [s]) }
 ```
 
 Он может работать не только со строкой (s ~ Char), но и с любым потоком данных.
