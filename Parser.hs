@@ -4,12 +4,12 @@ import           Control.Applicative
 {-
 import           Data.Char
 import           Data.Functor
-import           Data.Maybe
+import           Data.Either
 import           Test.QuickCheck
 import           Test.QuickCheck.Poly
 -}
 
-newtype Parser s a = Parser{runParser :: [s] -> Maybe (a, [s])}
+newtype Parser s a = Parser{runParser :: [s] -> Either String (a, [s])}
 
 -- | 10
 instance Functor (Parser s) where
