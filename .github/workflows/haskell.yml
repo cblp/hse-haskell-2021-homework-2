@@ -34,7 +34,14 @@ jobs:
           ${{ runner.os }}-build-
           ${{ runner.os }}-
 
-    - {name: Compile and test, run: stack --system-ghc --no-install-ghc test}
+    - name: Compile and test
+      run:
+        stack --system-ghc --no-install-ghc
+        test
+          --pedantic
+          --ghc-options=-Wincomplete-record-updates
+          --ghc-options=-Wincomplete-uni-patterns
+          --ghc-options=-Wredundant-constraints
 
     # - name: Install stack
     #   run:
